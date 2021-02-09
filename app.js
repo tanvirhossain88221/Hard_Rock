@@ -5,6 +5,8 @@ const searchSongs = async() => {
     const res = await fetch(url);
     const data = await res.json();
     displaySongs(data.data);
+    //jodi api data dite na pare tokhon errror dekhabe tai nicher line.
+    //.catch(error => displayError('Something went Wrong!!Please try again later!'));  //ai line .then use korle
 }
 
 const displaySongs = songs => {
@@ -29,13 +31,26 @@ const displaySongs = songs => {
 }
 
 const getLyric = async (artist, title) => {
-    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`
-    const res = await fetch(url);
-    const data = await res.json();
-    displayLyrics(data.lyrics);
+        //jodi api data dite na pare tokhon errror dekhabe tai nicher line.
+    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
+    try{
+        const res = await fetch(url);
+        const data = await res.json();
+        displayLyrics(data.lyrics);
+    }
+    catch(error){
+        displayError('Sorry! I failed to Load Lyrics')
+    }
+    
 }
 
 const displayLyrics = lyrics => {
     const lyricsDiv = document.getElementById('song-lyrics');
     lyricsDiv.innerText = lyrics;
+}
+
+//display error function
+const displayError = error => {
+    const errorTag  = document.getElementById('error-message');
+    errorTag.innerText = error;
 }
